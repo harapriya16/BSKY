@@ -1,0 +1,112 @@
+# common to all profiles
+spring:
+  profiles:
+    active: uat
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  mail:
+    host: smtp.gmail.com
+    username: udreamstl@gmail.com
+    password: Techlab@2018
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  main:
+    allow-circular-references: true
+
+jwt:
+  token:
+    access:
+      validity: 360000 # 3600 i.e. 1 hour default
+    refresh:
+      validity: 7200
+  authorities:
+    key: roles
+  secret: surendra@1234
+
+captcha:
+  secret:
+    salt: S%3erddsr&3890(Kls&34@
+  login-captcha-time: 300000
+  other-captcha-time: 1800000
+server:
+  servlet:
+    context-path: /bsky
+  error:
+    include-stacktrace: on_param  
+
+## SpringDoc Open Api Configuration
+springdoc:
+  api-docs:
+    path: /nta-docs
+
+## Configuring Actuator End points
+management:
+  endpoints:
+    web:
+      path-mapping:
+        health: bsky-health
+      base-path: /bsky
+      exposure:
+        include:
+          - "*"
+#'dev' profile only 
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  ## PostgreSQL
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bsky # ENC(WjmwoHWikQs3Uuhd89DZ0IGdp9MVrBo09VooRxSGCaKGlBbqh6YmaNNbnIrwXxZf)
+    username: postgres
+    password: techlab
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 10
+
+registration:
+  siteURL: http://localhost:3001/index.html#/create-password
+
+server:
+  port: 8084
+build:
+  base:
+    path: D:\\bskyfiles\\
+
+
+#'uat' profile only
+---
+spring:
+  config:
+    activate:
+      on-profile: uat
+  ## PostgreSQL
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bsky # jdbc:postgresql://localhost:5432/nta
+    username: ENC(+JVLoNJm6RrMN5ImhiY2/UimICMC1A1B) # postgres
+    password: ENC(Ic8sEoU0FMlTADpWRLmwPA==) # techlab
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 10
+
+server:
+  port: 8084
+registration:
+  siteURL: http://203.193.144.93:9090/ems/index.html#/create-password
+build:
+  base:
+    path: E:\\bskyfiles\\
+    
+management:
+  endpoints:
+    enabled-by-default: false
